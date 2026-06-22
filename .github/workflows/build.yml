@@ -11,8 +11,14 @@ jobs:
       - name: Install deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y autoconf automake libtool libltdl-dev openjdk-17-jdk
+          sudo apt-get install -y autoconf automake libtool libltdl-dev openjdk-17-jdk unzip wget
           pip install buildozer cython
+      - name: Install Android build-tools
+        run: |
+          mkdir -p $HOME/.buildozer/android/platform/android-sdk
+          wget https://dl.google.com/android/repository/build-tools_r34-linux.zip
+          unzip build-tools_r34-linux.zip -d $HOME/.buildozer/android/platform/android-sdk/build-tools/
+          mv $HOME/.buildozer/android/platform/android-sdk/build-tools/android-* $HOME/.buildozer/android/platform/android-sdk/build-tools/34.0.0
       - name: Build
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
